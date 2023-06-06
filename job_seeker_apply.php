@@ -31,7 +31,7 @@
         @$userID = $_SESSION["userID"];
 
 
-$sql = "SELECT j.jobID, j.companyID, j.job_title, j.job_description, j.listing_date, j.working_type, c.company_name, ci.city_name, d.district_name, COALESCE(a.row_count, 0)     AS application_count
+$sql = "SELECT j.jobID, j.job_title, j.job_description, j.working_type, c.company_name, ci.city_name, d.district_name, COALESCE(a.row_count, 0)     AS application_count
         FROM Jobs j
         JOIN Companies c ON j.companyID = c.companyID
         LEFT JOIN (
@@ -44,7 +44,7 @@ $sql = "SELECT j.jobID, j.companyID, j.job_title, j.job_description, j.listing_d
         WHERE j.jobID NOT IN (
             SELECT jobID
             FROM Applications
-            WHERE userID = $userID
+            WHERE userID = $userID 
         )";
 
           
@@ -61,13 +61,14 @@ $sql = "SELECT j.jobID, j.companyID, j.job_title, j.job_description, j.listing_d
                 $city_name = $row['city_name'];
                 $district_name = $row['district_name'];
                 $count= $row['application_count'];
-
+                $working_type=row['working_type'];
 
                 echo '<tr>';
                 echo '<td>';
                 echo '<h1>' . $jobTitle . '</h1>';
                 echo '<p>Company: ' . $companyName , " ($city_name/$district_name)" . '</p>';
                 echo '<p>Description: ' . $description . '</p>';
+                echo '<p>Working type: ' . $working_type . '</p>';
                 echo '<p>Number of applicants: ' . $count . '</p>';
                 echo '<a href="job_seeker_apply_server.php?id=' . $jobID . '">Apply Now</a>';
                 echo '</td>';
